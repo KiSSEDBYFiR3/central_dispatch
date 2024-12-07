@@ -1,0 +1,14 @@
+name: central_dispatch
+
+description: "A new Dart package project."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  collection: ^1.18.0
+  uuid: ^4.5.1
+
+dev_dependencies:
