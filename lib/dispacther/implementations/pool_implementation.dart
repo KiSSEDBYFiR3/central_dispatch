@@ -11,6 +11,7 @@ import 'package:collection/collection.dart';
 
 final class DefaultIsolatesPool implements IsolatedWorkersPool {
   final int _isolatesMaxCount;
+  final Duration? _pauseAfter;
 
   late final StreamController<WorkResult> _responseController =
       StreamController.broadcast();
@@ -27,7 +28,9 @@ final class DefaultIsolatesPool implements IsolatedWorkersPool {
 
   DefaultIsolatesPool({
     required int isolatesMaxCount,
-  }) : _isolatesMaxCount = isolatesMaxCount;
+    Duration? pauseAfter,
+  })  : _isolatesMaxCount = isolatesMaxCount,
+        _pauseAfter = pauseAfter;
 
   @override
   FutureOr<void> execute(WorkItem event) async {
@@ -37,6 +40,7 @@ final class DefaultIsolatesPool implements IsolatedWorkersPool {
       freeIsolate = WorkerFactory.newWorker(
         sink: _responseController.sink,
         onNext: _onNext,
+        pauseAfter: _pauseAfter,
       );
 
       await freeIsolate.init();
@@ -55,6 +59,7 @@ final class DefaultIsolatesPool implements IsolatedWorkersPool {
       final worker = WorkerFactory.newWorker(
         sink: _responseController.sink,
         onNext: _onNext,
+        pauseAfter: _pauseAfter,
       );
 
       await worker.init();

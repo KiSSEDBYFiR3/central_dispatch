@@ -10,9 +10,11 @@ abstract final class WorkerFactory {
   static IsolatedWorker newWorker({
     required StreamSink<WorkResult> sink,
     required void Function() onNext,
+    Duration? pauseAfter,
   }) =>
       createWorker(
         sink: sink,
         onNext: onNext,
+        pauseAfter: pauseAfter,
       );
 }

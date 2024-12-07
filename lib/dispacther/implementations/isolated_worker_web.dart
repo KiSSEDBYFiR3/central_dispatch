@@ -7,6 +7,7 @@ final class IsolatedWorker implements ConcurrentWorker {
   IsolatedWorker({
     required StreamSink<WorkResult> sink,
     required void Function() onNext,
+    Duration? pauseAfter,
   });
 
   @override
@@ -24,8 +25,10 @@ final class IsolatedWorker implements ConcurrentWorker {
 IsolatedWorker createWorker({
   required StreamSink<WorkResult> sink,
   required void Function() onNext,
+  Duration? pauseAfter,
 }) =>
     IsolatedWorker(
       sink: sink,
       onNext: onNext,
+      pauseAfter: pauseAfter,
     );

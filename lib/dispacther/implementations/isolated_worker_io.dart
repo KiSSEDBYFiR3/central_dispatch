@@ -10,6 +10,8 @@ final class IsolatedWorker implements ConcurrentWorker {
 
   final ReceivePort _receivePort;
 
+  final Duration _pauseAfter;
+
   final StreamSink<WorkResult> _sink;
 
   final void Function() _onNext;
@@ -22,12 +24,18 @@ final class IsolatedWorker implements ConcurrentWorker {
 
   StreamSubscription? _streamSubscription;
 
+  Capability? resumeCapability;
+
+  Timer? _timer;
+
   IsolatedWorker({
     required StreamSink<WorkResult> sink,
     required void Function() onNext,
+    Duration pauseAfter = const Duration(seconds: 3),
   })  : _receivePort = ReceivePort(),
         _sink = sink,
-        _onNext = onNext;
+        _onNext = onNext,
+        _pauseAfter = pauseAfter;
 
   @override
   bool get isFree => _state == WorkerState.free;
@@ -37,7 +45,7 @@ final class IsolatedWorker implements ConcurrentWorker {
     if (_state == WorkerState.sleeping) return;
 
     _isolate = await Isolate.spawn(
-      _entry,
+      _entryPoint,
       _receivePort.sendPort,
     );
 
@@ -47,13 +55,30 @@ final class IsolatedWorker implements ConcurrentWorker {
           case const (SendPort):
             _sendPort = data;
           case const (WorkResult):
+            _state = WorkerState.free;
             _sink.add(data);
             _onNext();
+            _schedulePause();
         }
       },
     );
 
     _state = WorkerState.free;
+  }
+
+  void _cancelTimer() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  void _schedulePause() {
+    _timer = Timer(
+      _pauseAfter,
+      () {
+        resumeCapability = _isolate.pause();
+        _streamSubscription?.pause();
+      },
+    );
   }
 
   @override
@@ -67,7 +92,14 @@ final class IsolatedWorker implements ConcurrentWorker {
       _state == WorkerState.free,
       'Isolate must be free to execute request. State was $_state',
     );
+    _cancelTimer();
 
+    if (resumeCapability != null) {
+      _isolate.resume(resumeCapability!);
+      resumeCapability = null;
+
+      _streamSubscription?.resume();
+    }
     _sendPort?.send(event);
     _state = WorkerState.running;
   }
@@ -80,7 +112,8 @@ final class IsolatedWorker implements ConcurrentWorker {
   }
 }
 
-void _entry(SendPort sendPort) {
+@pragma("vm:entry-point")
+void _entryPoint(SendPort sendPort) {
   final recievePort = ReceivePort();
 
   sendPort.send(recievePort.sendPort);
