@@ -5,7 +5,7 @@ import 'dart:math';
 
 import 'package:central_dispatch/dispacther/workers_pool.dart';
 import 'package:central_dispatch/dispacther/concurrent_worker.dart';
-import 'package:central_dispatch/dispacther/implementations/worker_factory.dart';
+import 'package:central_dispatch/dispacther/implementations/worker/worker_factory.dart';
 import 'package:central_dispatch/dispacther/entities/work.dart';
 import 'package:collection/collection.dart';
 
