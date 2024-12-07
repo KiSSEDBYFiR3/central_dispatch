@@ -1,4 +1,4 @@
-import 'package:central_dispatch/dispacther/entities/work.dart';
+import 'package:central_dispatch/dispatcher/entities/work.dart';
 
 abstract interface class ConcurrentWorker {
   Future<void> init();

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:central_dispatch/dispacther/implementations/pool_implementation.dart';
-import 'package:central_dispatch/dispacther/entities/work.dart';
+import 'package:central_dispatch/dispatcher/implementations/pool_implementation.dart';
+import 'package:central_dispatch/dispatcher/entities/work.dart';
 
 abstract interface class IsolatedWorkersPool {
   factory IsolatedWorkersPool({int? isolatesMaxCount}) {

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:central_dispatch/dispacther/concurrent_worker.dart';
-import 'package:central_dispatch/dispacther/entities/work.dart';
-import 'package:central_dispatch/dispacther/entities/worker_state.dart';
+import 'package:central_dispatch/dispatcher/concurrent_worker.dart';
+import 'package:central_dispatch/dispatcher/entities/work.dart';
+import 'package:central_dispatch/dispatcher/entities/worker_state.dart';
 
 final class IsolatedWorker implements ConcurrentWorker {
   late final Isolate _isolate;

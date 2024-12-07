@@ -3,10 +3,10 @@ import 'dart:collection';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:central_dispatch/dispacther/workers_pool.dart';
-import 'package:central_dispatch/dispacther/concurrent_worker.dart';
-import 'package:central_dispatch/dispacther/implementations/worker/worker_factory.dart';
-import 'package:central_dispatch/dispacther/entities/work.dart';
+import 'package:central_dispatch/dispatcher/workers_pool.dart';
+import 'package:central_dispatch/dispatcher/concurrent_worker.dart';
+import 'package:central_dispatch/dispatcher/implementations/worker/worker_factory.dart';
+import 'package:central_dispatch/dispatcher/entities/work.dart';
 import 'package:collection/collection.dart';
 
 final class DefaultIsolatesPool implements IsolatedWorkersPool {

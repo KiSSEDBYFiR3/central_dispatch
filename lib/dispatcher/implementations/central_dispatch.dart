@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:collection';
-import 'package:central_dispatch/dispacther/dispatcher.dart';
-import 'package:central_dispatch/dispacther/entities/work.dart';
-import 'package:central_dispatch/dispacther/workers_pool.dart';
+import 'package:central_dispatch/dispatcher/dispatcher.dart';
+import 'package:central_dispatch/dispatcher/entities/work.dart';
+import 'package:central_dispatch/dispatcher/workers_pool.dart';
 import 'package:uuid/uuid.dart';
 
 final class CentralDispatch implements Dispatcher {

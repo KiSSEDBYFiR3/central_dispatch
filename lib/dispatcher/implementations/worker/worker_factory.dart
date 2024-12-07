@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:central_dispatch/dispacther/entities/work.dart';
+import 'package:central_dispatch/dispatcher/entities/work.dart';
 
 import 'isolated_worker_stub.dart'
     if (dart.library.io) 'isolated_worker_io.dart'
