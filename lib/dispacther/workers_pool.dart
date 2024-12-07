@@ -4,12 +4,13 @@ import 'package:central_dispatch/dispacther/implementations/pool_implementation.
 import 'package:central_dispatch/dispacther/entities/work.dart';
 
 abstract interface class IsolatedWorkersPool {
-  factory IsolatedWorkersPool({
-    int isolatesMaxCount = 10,
-  }) =>
-      DefaultIsolatesPool(
-        isolatesMaxCount: Platform.numberOfProcessors,
-      );
+  factory IsolatedWorkersPool({int? isolatesMaxCount}) {
+    isolatesMaxCount ??= Platform.numberOfProcessors;
+
+    return DefaultIsolatesPool(
+      isolatesMaxCount: isolatesMaxCount,
+    );
+  }
 
   int get currentIsolatesCount;
 
