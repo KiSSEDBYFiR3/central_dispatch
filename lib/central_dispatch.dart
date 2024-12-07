@@ -1,7 +1,5 @@
 library central_dispatch;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'package:central_dispatch/dispacther/implementations/central_dispatch.dart';
+export 'package:central_dispatch/dispacther/implementations/pool_implementation.dart';
+export 'package:central_dispatch/dispacther/workers_pool.dart';
