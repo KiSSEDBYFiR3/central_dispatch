@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:central_dispatch/dispacther/workers_pool.dart';
 import 'package:central_dispatch/dispacther/concurrent_worker.dart';
@@ -50,7 +51,7 @@ final class DefaultIsolatesPool implements IsolatedWorkersPool {
 
   @override
   Future<void> init() async {
-    for (var i = 0; i < Platform.numberOfProcessors - 2; i++) {
+    for (var i = 0; i < max(Platform.numberOfProcessors - 2, 2); i++) {
       final worker = WorkerFactory.newWorker(
         sink: _responseController.sink,
         onNext: _onNext,
